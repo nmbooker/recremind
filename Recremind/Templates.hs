@@ -34,6 +34,12 @@ setRecForm postAction =
                                           ! A.name  "when"
                                           ! A.class_ "form-control"
                       H.div ! A.class_ "form-group" $ do
+                          H.label "Recording Limit (days):"
+                          H.input ! A.type_ "number"
+                                          ! A.name  "recordLimit"
+                                          ! A.class_ "form-control"
+                                          ! A.value "7"
+                      H.div ! A.class_ "form-group" $ do
                           H.input ! A.type_ "submit"
                                   ! A.name "setReminder"
                                   ! A.class_ "btn btn-default"
