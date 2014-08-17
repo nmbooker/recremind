@@ -2,37 +2,45 @@ module Recremind.Scheduler (
     Reminder(..)
 ,   reminderSubj
 ,   reminderBody
+,   whenToRemind
 ) where
 
 -- This contains the action that will actually build the reminder and schedule it
 
-
-import Data.Hourglass (Duration(..), TimeInterval(..), DateTime, timePrint)
+import Data.Hourglass (Duration(..), Hours(..), DateTime, timePrint, timeAdd)
+import Data.Int (Int64)
 
 data Reminder = Reminder {
-        programName     :: String
-    ,   firstShowing    :: DateTime
-    ,   timerPeriodDays :: Int          -- how far in advance we can set timer, in days
-}
+        programName     :: String    -- ^ name of program
+    ,   channel         :: String    -- ^ name of broadcast channel
+    ,   firstShowing    :: DateTime  -- ^ time of first showing
+    ,   timerPeriodDays :: Int64     -- ^ how far in advance we can set timer, in days
+} deriving (Show)
 
 
-reminderSubj :: Reminder -> String
+reminderSubj :: Reminder
+                -> String   -- ^ subject for reminder email
 reminderSubj reminder = "TODO: Set timer to record " ++ (programName reminder)
 
-reminderBody :: Reminder -> String
+reminderBody :: Reminder
+                -> String   -- ^ body of reminder email
 reminderBody reminder = unlines $
     [   "Program:        " ++ (programName reminder)
-    ,   "When:           " ++ (timePrint "%d/%m/%Y %H:%M" $ firstShowing reminder)
+    ,   "Channel:        " ++ (channel reminder)
+    ,   "When:           " ++ (timePrint "DD/MM/YYYY H:MI" $ firstShowing reminder)
     ]
 
+
+whenToRemind :: Reminder 
+                -> DateTime     -- ^ when to send the reminder
+whenToRemind reminder =
+    (timerPeriodDays reminder) `daysBefore` (firstShowing reminder)
+
+
+numDays `daysBefore` time =
+    time `timeAdd` nullDuration {
+        durationHours = Hours ((- numDays) * hoursPerDay)
+    }
+
 hoursPerDay = 24
-
---whenToRemind :: Reminder -> LocalTime
---whenToRemind reminder = undefined
-
--- Consider using the 'hourglass' package to do arithmetic on times and dates
---howLongTo :: LocalTime -> LocalTime -> 
-
-
--- TODO Function to work out when to send the email given a 'now' time
--- TODO Function to schedule sending of the email (will be IO)
+nullDuration = Duration 0 0 0 0
