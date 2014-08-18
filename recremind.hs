@@ -9,7 +9,6 @@ import Happstack.Server
 import qualified Text.Blaze.Html5 as H
 
 import Text.Digestive.Blaze.Html5
-import Text.Digestive
 import Text.Digestive.Happstack
 
 recordReminderApp :: ServerPart Response
