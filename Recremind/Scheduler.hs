@@ -7,7 +7,6 @@ module Recremind.Scheduler (
 
 -- This contains the action that will actually build the reminder and schedule it
 
--- import Data.Hourglass (Duration(..), Hours(..), DateTime, timePrint, timeAdd)
 import Data.Time
 import System.Locale (defaultTimeLocale)
 
