@@ -10,18 +10,14 @@ import           Control.Applicative ((<$>), (<*>))
 import           Control.Monad (when)
 import           Data.Text (Text)
 import           Text.Blaze ((!))
-import           Text.Blaze.Html (toHtml)
 import           Text.Blaze.Internal (preEscapedText)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import qualified Data.String as S
 import Data.Monoid (mempty)
 
 import Text.Digestive
-import Text.Digestive.Happstack
 import Text.Digestive.Blaze.Html5
 
-import Data.Hourglass (DateTime(..), timeParse)
 
 import Recremind.Scheduler
 
@@ -77,42 +73,6 @@ inputDate ref view =
     where
         ref' = absoluteRef ref view
 
-setRecForm postAction =
-    appTemplate "Set Record Reminder" [] $ do
-        H.div ! A.class_ "container" $ do
-            H.h1 "Set Record Reminder"
-            H.form  ! A.enctype "multipart/form-data"
-                    ! A.method "POST"
-                    ! A.action "/setrec" $ do
-                      H.div ! A.class_ "form-group" $ do
-                          H.label ! A.for "in_progname" $ "Program Name:"
-                          H.input   ! A.type_ "text"
-                                    ! A.name "progname"
-                                    ! A.size "10"
-                                    ! A.id "in_progname"
-                                    ! A.class_ "form-control"
-                      H.div ! A.class_ "form-group" $ do
-                          H.label ! A.for "in_channel" $ "Channel:"
-                          H.input   ! A.type_ "text"
-                                    ! A.name "channel"
-                                    ! A.size "10"
-                                    ! A.id "in_channel"
-                                    ! A.class_ "form-control"
-                      H.div ! A.class_ "form-group" $ do
-                          H.label "When:"
-                          H.input ! A.type_ "datetime-local"
-                                  ! A.name  "when"
-                                  ! A.class_ "form-control"
-                      H.div ! A.class_ "form-group" $ do
-                          H.label "Recording Limit (days):"
-                          H.input ! A.type_ "number"
-                                  ! A.name  "recordLimit"
-                                  ! A.class_ "form-control"
-                                  ! A.value "7"
-                      H.div ! A.class_ "form-group" $ do
-                          H.input ! A.type_ "submit"
-                                  ! A.name "setReminder"
-                                  ! A.class_ "btn btn-default"
 
 appTemplate :: String -> [H.Html] -> H.Html -> H.Html
 appTemplate title headers body =
