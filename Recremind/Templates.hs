@@ -44,7 +44,7 @@ setRecView view = do
 
             divFormGroup $ do
                 label "when" view "When:"
-                formControl $ inputDate "when" view
+                formControl $ inputText "when" view
 
             divFormGroup $ do
                 label "recordLimit" view "Recording Limit (days):"
