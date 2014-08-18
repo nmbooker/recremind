@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, RankNTypes, FlexibleContexts, KindSignatures #-}
 
 module Main where
 
@@ -31,8 +31,10 @@ setRecHandler = do
             reply "Valid" [] $ do
                 H.h1 "Form is valid."
                 H.p $ H.toHtml $ show response
-
-reply title headers body = ok $ toResponse $ appTemplate title headers body
+reply :: forall (m :: * -> *).
+         FilterMonad Response m =>
+         String -> [H.Html] -> H.Html -> m Response
+reply title headers theBody = ok $ toResponse $ appTemplate title headers theBody
 
 main :: IO ()
 main = do
