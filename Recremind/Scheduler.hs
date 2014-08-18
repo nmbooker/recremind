@@ -10,8 +10,6 @@ module Recremind.Scheduler (
 -- import Data.Hourglass (Duration(..), Hours(..), DateTime, timePrint, timeAdd)
 import Data.Time
 import System.Locale (defaultTimeLocale)
-import Data.DateTime (DateTime(..), addMinutes, formatDateTime)
-import Data.Int (Int64)
 
 data Reminder = Reminder {
         programName     :: String    -- ^ name of program
@@ -45,8 +43,4 @@ addDaysToLocalTime nDays time =
     in time { localDay = newDay }
 
 d `daysBefore` t = addDaysToLocalTime (0 - d) t
-
-hoursPerDay = 24
-minutesPerHour = 60
-minutesPerDay = minutesPerHour * hoursPerDay
 
