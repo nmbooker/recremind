@@ -30,7 +30,6 @@ setRecFormSpec = Reminder
 
 setRecView :: View H.Html -> H.Html
 setRecView view = do
-    appTemplate "Set Record Reminder" [] $ do
         H.div ! A.class_ "container" $ do
             H.h1 "Set Record Reminder"
             childErrorList "" view
