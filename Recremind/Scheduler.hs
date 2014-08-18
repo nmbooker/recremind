@@ -27,7 +27,7 @@ reminderBody :: Reminder
 reminderBody reminder = unlines $
     [   "Program:        " ++ (programName reminder)
     ,   "Channel:        " ++ (channel reminder)
-    ,   "When:           " ++ (formatTime defaultTimeLocale "%d/%m/%Y %H:%M" $ firstShowing reminder)
+    ,   "When:           " ++ (formatTime defaultTimeLocale "%a %d/%m/%Y %H:%M" $ firstShowing reminder)
     ]
 
 
