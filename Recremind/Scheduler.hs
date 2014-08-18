@@ -41,5 +41,6 @@ addDaysToLocalTime nDays time =
     let newDay = addDays nDays (localDay time)
     in time { localDay = newDay }
 
+daysBefore :: Integer -> LocalTime -> LocalTime
 d `daysBefore` t = addDaysToLocalTime (0 - d) t
 
