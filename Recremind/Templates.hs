@@ -2,10 +2,13 @@
 
 module Recremind.Templates (
     appTemplate
-,   setRecForm
+,   setRecFormSpec
+,   setRecView
 ) where
 
+import           Control.Applicative ((<$>), (<*>))
 import           Control.Monad (when)
+import           Data.Text (Text)
 import           Text.Blaze ((!))
 import           Text.Blaze.Html (toHtml)
 import           Text.Blaze.Internal (preEscapedText)
@@ -13,6 +16,66 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import qualified Data.String as S
 import Data.Monoid (mempty)
+
+import Text.Digestive
+import Text.Digestive.Happstack
+import Text.Digestive.Blaze.Html5
+
+import Data.Hourglass (DateTime(..), timeParse)
+
+import Recremind.Scheduler
+
+setRecFormSpec :: Monad m => Form Text m Reminder
+setRecFormSpec = Reminder
+    <$> "progname" .: string Nothing
+    <*> "channel" .: string Nothing
+    <*> "when" .: localTimeFormlet "%d/%m/%Y" "%H:%M" Nothing
+    <*> "recordLimit" .: stringRead "Can't parse number" (Just 7)
+
+setRecView :: View H.Html -> H.Html
+setRecView view = do
+    appTemplate "Set Record Reminder" [] $ do
+        H.div ! A.class_ "container" $ do
+            H.h1 "Set Record Reminder"
+            childErrorList "" view
+
+            divFormGroup $ do
+                label "progname" view "Program Name:"
+                formControl $ inputText "progname" view
+
+            divFormGroup $ do
+                label "channel" view "Channel:"
+                formControl $ inputText "channel" view
+
+            divFormGroup $ do
+                label "when" view "When:"
+                formControl $ inputDate "when" view
+
+            divFormGroup $ do
+                label "recordLimit" view "Recording Limit (days):"
+                formControl $ inputText "recordLimit" view
+
+            divFormGroup $ do
+                formControl $ inputSubmit "Signup"
+
+-- divFormGroup -- candidate to go into a Bootstrap library
+divFormGroup :: H.Html -> H.Html
+divFormGroup h =
+    H.div ! A.class_ "form-group" $ h
+
+-- formControl -- candidate to go into a Bootstrap library
+formControl :: H.Html -> H.Html
+formControl h = (h ! A.class_ "form-control")
+
+inputDate :: Text -> View v -> H.Html
+inputDate ref view =
+    H.input
+        !   A.type_ "datetime-local"
+        !   A.id    (H.toValue ref')
+        !   A.name  (H.toValue ref')
+        !   A.value (H.toValue $ fieldInputText ref view)
+    where
+        ref' = absoluteRef ref view
 
 setRecForm postAction =
     appTemplate "Set Record Reminder" [] $ do
@@ -27,6 +90,13 @@ setRecForm postAction =
                                     ! A.name "progname"
                                     ! A.size "10"
                                     ! A.id "in_progname"
+                                    ! A.class_ "form-control"
+                      H.div ! A.class_ "form-group" $ do
+                          H.label ! A.for "in_channel" $ "Channel:"
+                          H.input   ! A.type_ "text"
+                                    ! A.name "channel"
+                                    ! A.size "10"
+                                    ! A.id "in_channel"
                                     ! A.class_ "form-control"
                       H.div ! A.class_ "form-group" $ do
                           H.label "When:"

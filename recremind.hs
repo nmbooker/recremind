@@ -1,22 +1,42 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
-import Recremind.Templates (appTemplate, setRecForm)
+import Text.Printf
+import Recremind.Templates (appTemplate, setRecFormSpec, setRecView)
 import Control.Monad (msum)
 import Happstack.Server
+import qualified Text.Blaze.Html5 as H
 
+import Text.Digestive.Blaze.Html5
+import Text.Digestive
+import Text.Digestive.Happstack
 
 recordReminderApp :: ServerPart Response
 recordReminderApp = msum
-        [   dir "setrec" $ setRecGetHandler
+        [   dir "setrec" $ setRecHandler
         --,   seeOther "/setrec" "/setrec"
         ]
 
-setRecGetHandler :: ServerPart Response
-setRecGetHandler =
-    do  method GET
-        ok $ toResponse $ (setRecForm "/setrec")
+setRecHandler :: ServerPart Response
+setRecHandler = do
+    decodeBody $ defaultBodyPolicy "/tmp/" 0 40960 40960
+    r <- runForm "test" setRecFormSpec
+    case r of
+        (view, Nothing) -> do
+            let view' = fmap H.toHtml view
+            reply "Set record reminder" [] $
+                form view' "/setrec" (setRecView view')
 
+        (_, Just response) -> do
+            reply "Valid" [] $ do
+                H.h1 "Form is valid."
+                H.p $ H.toHtml $ show response
 
+reply title headers body = ok $ toResponse $ appTemplate title headers body
 
 main :: IO ()
-main = simpleHTTP nullConf $ recordReminderApp
+main = do
+    let listenPort = 8000
+    putStrLn $ printf "Starting server on port %d..." listenPort
+    simpleHTTP nullConf { port = listenPort } $ recordReminderApp
