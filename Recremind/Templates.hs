@@ -10,7 +10,7 @@ import           Control.Applicative ((<$>), (<*>))
 import           Control.Monad (when)
 import           Data.Text (Text)
 import           Text.Blaze ((!))
-import           Text.Blaze.Internal (preEscapedText)
+import           Text.Blaze.Internal (preEscapedText, MarkupM)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Data.Monoid (mempty)
@@ -88,6 +88,7 @@ appTemplate title headers body =
             H.script ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" $ mempty
             H.script ! A.src "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" $ mempty
 
+twitterBootstrap :: Bool -> MarkupM ()
 twitterBootstrap includeTheme = do
         H.meta  ! A.httpEquiv   "X-UA-Compatible"
                 ! A.content     "IE=edge"
