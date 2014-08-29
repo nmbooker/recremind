@@ -21,6 +21,12 @@ import Text.Digestive.Blaze.Html5
 
 import Recremind.Scheduler
 
+-- data Reminder = Reminder {
+--         programName :: String
+--     ,   channel :: String
+--     ,   timerPeriodDays :: Integer
+--     } deriving (Show)
+
 setRecFormSpec :: Monad m => Form Text m Reminder
 setRecFormSpec = Reminder
     <$> "progname" .: string Nothing
@@ -42,9 +48,7 @@ setRecView view = do
                 label "channel" view "Channel:"
                 formControl $ inputText "channel" view
 
-            divFormGroup $ do
-                label "when" view "When:"
-                formControl $ inputText "when" view
+            dateTimeView $ subView "when" view
 
             divFormGroup $ do
                 label "recordLimit" view "Recording Limit (days):"
@@ -52,6 +56,16 @@ setRecView view = do
 
             divFormGroup $ do
                 formControl $ inputSubmit "Signup"
+
+dateTimeView view = do
+    divFormGroup $ do
+        label "date" view "When (Date):"
+        formControl $ inputText "date" view
+
+    divFormGroup $ do
+        label "time" view "When (Time):"
+        formControl $ inputText "time" view
+    
 
 -- divFormGroup -- candidate to go into a Bootstrap library
 divFormGroup :: H.Html -> H.Html
