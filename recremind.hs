@@ -41,6 +41,10 @@ reply title headers theBody = ok $ toResponse $ appTemplate title headers theBod
 
 main :: IO ()
 main = do
-    let listenPort = 8000
-    putStrLn $ printf "Starting server on port %d..." listenPort
-    simpleHTTP nullConf { port = listenPort } $ recordReminderApp
+    conf <- serverConf
+    putStrLn $ printf "Starting server on port %d..." (port conf)
+    simpleHTTP conf $ recordReminderApp
+
+-- IO so can get some bits from environment later :)
+serverConf :: IO (Conf)
+serverConf = return $ nullConf { port = 8000 }
