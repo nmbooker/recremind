@@ -59,19 +59,6 @@ dateTimeView view = do
     divFormGroup $ do
         label "time" view "When (Time):"
         formControl $ inputText "time" view
-    
-
-
--- Old but could be used as a basis for a digestive-functors form using proper datetime widget in HTML5
--- inputDate :: Text -> View v -> H.Html
--- inputDate ref view =
---     H.input
---         !   A.type_ "datetime-local"
---         !   A.id    (H.toValue ref')
---         !   A.name  (H.toValue ref')
---         !   A.value (H.toValue $ fieldInputText ref view)
---     where
---         ref' = absoluteRef ref view
 
 
 appTemplate :: String -> [H.Html] -> MarkupM () -> H.Html
