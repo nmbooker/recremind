@@ -1,5 +1,5 @@
 all:
-	ghc -Wall -threaded recremind.hs -o recremind
+	ghc -Wall -fwarn-unused-do-bind -threaded recremind.hs -o recremind
 
 clean:
 	$(RM) *.hi *.o recremind Recremind/*.hi Recremind/*.o
