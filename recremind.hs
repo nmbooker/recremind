@@ -36,7 +36,10 @@ setRecHandler = do
 
 reply :: forall (m :: * -> *).
          FilterMonad Response m =>
-         String -> [H.Html] -> H.Html -> m Response
+         String         -- ^ Page title for <title> tag
+         -> [H.Html]    -- ^ List of additional bits for <head> section
+         -> H.Html      -- ^ Body content
+         -> m Response  -- ^ OK response for Happstack
 reply title headers theBody = ok $ toResponse $ appTemplate title headers theBody
 
 main :: IO ()
