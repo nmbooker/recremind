@@ -40,7 +40,10 @@ reply :: forall (m :: * -> *).
          -> [H.Html]    -- ^ List of additional bits for <head> section
          -> H.Html      -- ^ Body content
          -> m Response  -- ^ OK response for Happstack
-reply title headers theBody = ok $ toResponse $ appTemplate title headers theBody
+
+reply title headers theBody = ok $ toResponse $
+    appTemplate title headers theBody
+
 
 main :: IO ()
 main = do
