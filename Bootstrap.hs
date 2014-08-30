@@ -51,11 +51,11 @@ twitterBootstrap includeTheme = do
             ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
         H.script (return ()) ! A.src "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
 
--- divFormGroup -- candidate to go into a Bootstrap library
+
 divFormGroup :: H.Html -> H.Html
 divFormGroup h =
     H.div ! A.class_ "form-group" $ h
 
--- formControl -- candidate to go into a Bootstrap library
+
 formControl :: H.Html -> H.Html
 formControl h = (h ! A.class_ "form-control")
