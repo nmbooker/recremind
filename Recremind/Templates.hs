@@ -18,14 +18,7 @@ import Text.Digestive
 import Text.Digestive.Blaze.Html5
 
 import Bootstrap (bootstrapTemplate)
-
 import Recremind.Scheduler
-
--- data Reminder = Reminder {
---         programName :: String
---     ,   channel :: String
---     ,   timerPeriodDays :: Integer
---     } deriving (Show)
 
 setRecFormSpec :: Monad m => Form Text m Reminder
 setRecFormSpec = Reminder
