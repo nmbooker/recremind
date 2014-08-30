@@ -26,7 +26,7 @@ bootstrapTemplate title headers body =
           H.body $ do
             body
             H.script ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" $ mempty
-            H.script ! A.src "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" $ mempty
+            H.script ! A.src "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" $ mempty
 
 twitterBootstrap :: Bool -> MarkupM ()
 twitterBootstrap includeTheme = do
