@@ -17,7 +17,7 @@ import Data.Monoid (mempty)
 import Text.Digestive
 import Text.Digestive.Blaze.Html5
 
-import Bootstrap (bootstrapTemplate)
+import Bootstrap (bootstrapTemplate, divFormGroup, formControl)
 import Recremind.Scheduler
 
 setRecFormSpec :: Monad m => Form Text m Reminder
@@ -61,14 +61,6 @@ dateTimeView view = do
         formControl $ inputText "time" view
     
 
--- divFormGroup -- candidate to go into a Bootstrap library
-divFormGroup :: H.Html -> H.Html
-divFormGroup h =
-    H.div ! A.class_ "form-group" $ h
-
--- formControl -- candidate to go into a Bootstrap library
-formControl :: H.Html -> H.Html
-formControl h = (h ! A.class_ "form-control")
 
 -- Old but could be used as a basis for a digestive-functors form using proper datetime widget in HTML5
 -- inputDate :: Text -> View v -> H.Html
