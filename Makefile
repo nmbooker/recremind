@@ -1,6 +1,4 @@
-all: recremind
-
-recremind: recremind.hs Recremind/Templates.hs
+all:
 	ghc -Wall -threaded recremind.hs -o recremind
 
 clean:
