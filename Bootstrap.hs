@@ -24,7 +24,7 @@ bootstrapTemplate title headers body =
             twitterBootstrap True
             sequence_ headers
           H.body $ do
-            -- navBar >> body
+            body
             H.script ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" $ mempty
             H.script ! A.src "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" $ mempty
 
