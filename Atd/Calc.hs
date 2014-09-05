@@ -2,6 +2,7 @@ module Atd.Calc (
     atTime
 ,   messageScript
 ,   Script
+,   Recipient
 ) where
 
 import System.Locale (TimeLocale)
