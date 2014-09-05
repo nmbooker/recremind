@@ -87,7 +87,6 @@ main = do
             putStrLn $ printf "Starting server on port %d..." (port conf)
             simpleHTTP conf $ recordReminderApp email
 
--- IO so can get some bits from environment later :)
 serverConf :: IO (Conf)
 serverConf = do
     maybePort <- lookupEnv "PORT"
