@@ -9,6 +9,7 @@ import Text.Printf
 import Recremind.Templates (appTemplate, setRecFormSpec, setRecView)
 import Recremind.Scheduler (Reminder, whenToRemind, reminderSubj, reminderBody)
 import Control.Monad (msum)
+import Control.Monad.IO.Class (liftIO)
 import Happstack.Server
 import qualified Text.Blaze.Html5 as H
 
@@ -16,6 +17,7 @@ import Text.Digestive.Blaze.Html5
 import Text.Digestive.Happstack
 
 import Atd.Calc (atTime, messageScript, Script, Recipient)
+import Atd.IO (scheduleAt)
 
 import System.Locale (defaultTimeLocale)
 
@@ -38,13 +40,21 @@ setRecHandler email = do
         (_, Just response) -> do
             let (atArgs, atScript) = reminderToAt email response
             let atTech = do
-                H.h1 "Form is valid."
                 H.h2 "Arguments for at:"
                 H.p $ H.pre $ H.preEscapedToHtml $ show atArgs
                 H.h2 "Script for at:"
                 H.p $ H.pre $ H.preEscapedToHtml $ atScript
-            reply "Valid" [] $ do
-                atTech
+            atResponse <- liftIO $ scheduleAt atArgs atScript
+            case atResponse of
+                Left (errno, output) -> reply "At failed" [] $ do
+                    H.h2 "ERROR at scheduling failed"
+                    H.p $ H.toHtml $ "Exit status: " ++ (show errno)
+                    H.pre $ H.preEscapedToHtml output
+                    atTech
+                Right output -> reply "At succeeded" [] $ do
+                    H.h2 "at succeeded"
+                    H.pre $ H.preEscapedToHtml output
+                
 
 
 reminderToAt :: Recipient -> Reminder -> ([String], Script)
