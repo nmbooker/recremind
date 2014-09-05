@@ -7,7 +7,7 @@ The web form at /setrec accepts the name of the programme, the channel name,
 the date and time of first showing, and the number of days in advance your
 video recorder (e.g. Sky+, Freeview+, VCR) can schedule recordings.  The latter defaults to 7 but you must enter the rest yourself.
 
-Date must be in format dd/mm/yyyy.
+Date must be in format dd/mm/YYYY.
 
 Time must be in format HH:MM
 
