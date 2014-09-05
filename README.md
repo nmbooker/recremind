@@ -13,7 +13,7 @@ Time must be in format HH:MM
 
 Number of days must be a positive integer.
 
-Runs on port 8000.
+Runs on port 8000, unless you set the environment variable PORT to another number.
 
 You must set the environment variable `RECREMIND_TO_EMAIL` to the email
 address you want to send reminders to.

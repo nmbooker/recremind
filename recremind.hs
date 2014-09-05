@@ -89,4 +89,9 @@ main = do
 
 -- IO so can get some bits from environment later :)
 serverConf :: IO (Conf)
-serverConf = return $ nullConf { port = 8000 }
+serverConf = do
+    maybePort <- lookupEnv "PORT"
+    let thePort = case maybePort of
+            Nothing -> 8000
+            Just p -> (read p) :: Int
+    return $ nullConf { port = thePort }
