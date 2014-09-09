@@ -58,4 +58,4 @@ divFormGroup h =
 
 
 formControl :: H.Html -> H.Html
-formControl h = (h ! A.class_ "form-control")
+formControl h = h ! A.class_ "form-control"

@@ -20,14 +20,14 @@ data Reminder = Reminder {
 
 reminderSubj :: Reminder
                 -> String   -- ^ subject for reminder email
-reminderSubj reminder = "TODO: Set timer to record " ++ (programName reminder)
+reminderSubj reminder = "TODO: Set timer to record " ++ programName reminder
 
 reminderBody :: Reminder
                 -> String   -- ^ body of reminder email
-reminderBody reminder = unlines $
-    [   "Program:        " ++ (programName reminder)
-    ,   "Channel:        " ++ (channel reminder)
-    ,   "When:           " ++ (formatTime defaultTimeLocale "%a %d/%m/%Y %H:%M" $ firstShowing reminder)
+reminderBody reminder = unlines
+    [   "Program:        " ++ programName reminder
+    ,   "Channel:        " ++ channel reminder
+    ,   "When:           " ++ formatTime defaultTimeLocale "%a %d/%m/%Y %H:%M" (firstShowing reminder)
     ]
 
 
@@ -42,5 +42,5 @@ addDaysToLocalTime nDays time =
     in time { localDay = newDay }
 
 daysBefore :: Integer -> LocalTime -> LocalTime
-d `daysBefore` t = addDaysToLocalTime (0 - d) t
+d `daysBefore` t = addDaysToLocalTime (negate d) t
 

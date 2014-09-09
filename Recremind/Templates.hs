@@ -28,7 +28,7 @@ setRecFormSpec = Reminder
     <*> "recordLimit" .: stringRead "Can't parse number" (Just 7)
 
 setRecView :: View H.Html -> H.Html
-setRecView view = do
+setRecView view =
         H.div ! A.class_ "container" $ do
             H.h1 "Set Record Reminder"
             childErrorList "" view
@@ -47,7 +47,7 @@ setRecView view = do
                 label "recordLimit" view "Recording Limit (days):"
                 formControl $ inputText "recordLimit" view
 
-            divFormGroup $ do
+            divFormGroup $
                 formControl $ inputSubmit "Signup"
 
 dateTimeView :: forall v. View v -> Text.Blaze.Internal.MarkupM ()
