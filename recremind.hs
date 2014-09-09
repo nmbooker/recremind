@@ -43,12 +43,12 @@ setRecHandler email = do
                 H.h2 "Arguments for at:"
                 H.p $ H.pre $ H.preEscapedToHtml $ show atArgs
                 H.h2 "Script for at:"
-                H.p $ H.pre $ H.preEscapedToHtml $ atScript
+                H.p $ H.pre $ H.preEscapedToHtml atScript
             atResponse <- liftIO $ scheduleAt atArgs atScript
             case atResponse of
                 Left (errno, output) -> reply "At failed" [] $ do
                     H.h2 "ERROR at scheduling failed"
-                    H.p $ H.toHtml $ "Exit status: " ++ (show errno)
+                    H.p $ H.toHtml $ "Exit status: " ++ show errno
                     H.pre $ H.preEscapedToHtml output
                     atTech
                 Right output -> reply "At succeeded" [] $ do
@@ -87,10 +87,10 @@ main = do
             putStrLn $ printf "Starting server on port %d..." (port conf)
             simpleHTTP conf $ recordReminderApp email
 
-serverConf :: IO (Conf)
+serverConf :: IO Conf
 serverConf = do
     maybePort <- lookupEnv "PORT"
     let thePort = case maybePort of
             Nothing -> 8000
-            Just p -> (read p) :: Int
+            Just p -> read p :: Int
     return $ nullConf { port = thePort }
